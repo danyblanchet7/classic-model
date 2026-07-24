@@ -1,0 +1,22 @@
+name: "CA-MonJ"
+full_name: "Montmorency Forest - Synthetic Site"
+biome: "Humid boreal forest"
+lon: -71.16772
+lat: 47.28793
+soilcolour: 19
+start: 2016
+end: 2024
+ZRFH: 14.91
+ZRFM: 14.31
+PFTs: "1.0 NdlEvgTr"
+leap: ".true."
+peatland: "false"
+landscape_state: "undisturbed"
+
+
+notes: "
+
+
+Climate:
+
+
