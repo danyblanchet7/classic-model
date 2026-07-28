@@ -1,0 +1,74 @@
+
+CLASSIC Model Validation Report - CA-MonJ (Montmorency Juvenile)
+Period: 2016-2024 (9 years)
+Generated: 2026-07-02 19:58:05
+
+RÉSUMÉ DES PERFORMANCES
+========================
+
+Variables validées : LE, H, ET
+Période commune : 2016-01-01 00:00:00 à 2016-11-28 00:00:00
+Nombre de jours : 231
+
+TABLEAU RÉSUMÉ
+==============
+
+LE:
+  - Corrélation (r)     : 0.845
+  - R² (coefficient)    : -0.188
+  - RMSE                : 43.53
+  - MAE                 : 33.75
+  - Biais               : -33.15
+  - Moyenne OBS         : 51.28
+  - Moyenne CLASSIC     : 18.13
+  - N points            : 231
+
+H:
+  - Corrélation (r)     : 0.533
+  - R² (coefficient)    : -0.291
+  - RMSE                : 50.10
+  - MAE                 : 37.56
+  - Biais               : +31.42
+  - Moyenne OBS         : 24.98
+  - Moyenne CLASSIC     : 56.40
+  - N points            : 231
+
+ET:
+  - Corrélation (r)     : 0.843
+  - R² (coefficient)    : 0.311
+  - RMSE                : 0.89
+  - MAE                 : 0.64
+  - Biais               : -0.56
+  - Moyenne OBS         : 1.18
+  - Moyenne CLASSIC     : 0.62
+  - N points            : 231
+
+
+INTERPRÉTATION
+==============
+
+Excellente performance (R² > 0.8) : Très bon accord modèle-observations
+Bonne performance (R² > 0.6)      : Accord acceptable
+Performance faible (R² < 0.6)     : Amélioration nécessaire
+
+FICHIERS GÉNÉRÉS
+================
+
+1. 01_TimeSeries_AllVariables.png       - Série temporelle complète
+2. 02_Zoom_14-15_juillet_2021.png       - Zoom sur deux jours spécifiques
+3. 03_ScatterPlots_AllVariables.png     - Diagrammes de dispersion
+4. statistics_all_variables.csv         - Statistiques détaillées
+5. data_14-15_juillet_2021.csv          - Données du zoom
+
+CONCLUSION
+==========
+
+L'étude comparative montre les forces et faiblesses du modèle CLASSIC
+pour le site CA-MonJ. Les résultats peuvent être utilisés pour :
+- Valider la performance du modèle
+- Identifier les variables problématiques
+- Ajuster les paramètres si nécessaire
+- Documenter les limitations connues
+
+Tous les fichiers sont disponibles dans : /home/classic_ops/validation_results/
+

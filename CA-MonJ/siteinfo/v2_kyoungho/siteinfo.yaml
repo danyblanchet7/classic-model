@@ -1,0 +1,46 @@
+name: "Juvenile"
+full_name: "Juvenile Tower in Montmorency Forest"
+biome: "EBF"
+lon: -71.1677
+lat: 47.2879
+soilcolour: 18
+start: 2016
+end: 2024
+ZRFH: 32
+ZRFM: 28 
+leap: ".true." #.true. if the meteorology contains leap years
+peatland: "false"
+notes: "
+
+General:
+
+- ZRFH and ZRFM above are prescribed for the optimal performance against the measurements, not actual heights. 
+
+
+Vegetation:
+
+
+- dominant species: Balsam fir tree dominated boreal forest located in southern Quebec, Canada
+
+- Set in model as: 92% EVG BDL, 8% grass
+
+
+
+
+Init file:
+
+- soil depth 2.0 m 
+
+"
+
+principal_refs: "Isabelle, P-E., Nadeau, D. F., Anctil, F., Rousseau, A. N., Jutras, S., and Music, B. 2020 
+Impact of high precipitation on the energy and water budgets of a humid boreal forest, 
+Agricultural and Forest Meteorology, https://doi.org/10.1016/j.agrformet.2019.107813
+
+Lagueux, P., Sylvain, J-D., Drolet, G, Isabelle, P-E, Leonardini, G, Nadeau, D. F., and Anctil, F. 2024
+Impacts of forest canopy heterogeneity on plot-scale hydrometeorological variables - Insights from an experiment in the humid boreal forest
+with the Canadian Land Surface Scheme,
+Agricultural and Forest Meteorology, https://doi.org/10.1016/j.agrformet.2024.110194
+
+"
+# Comments are started with the pound sign, as per usual.
