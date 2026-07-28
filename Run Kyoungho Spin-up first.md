@@ -433,29 +433,5 @@ git commit -m "Doc: Explain Kyoungho's spin-up + transient strategy"
 git push
 
 echo " Sauvegardé dans Git"
-Résumé Visual : Pourquoi Kyoungho Fait Ça
-╔════════════════════════════════════════════════════════════════════╗
-║                    STRATÉGIE KYOUNGHO                              ║
-╚════════════════════════════════════════════════════════════════════╝
 
-PROBLÈME :
-  init.nc contient des pools "génériques" (SOC, eau du sol, etc.)
-  Si on lance directement 2016-2024, les pools sont irréalistes
-  → Résultats 2016-2020 biaisés
 
-SOLUTION :
-  
-  SPIN-UP (pré-calcul)              TRANSIENT (simulation réelle)
-  ╔─────────────────────╗             ╔──────────────────────╗
-  │ Boucler 2016-2024   │             │ 2016-2024 chronochrono│
-  │ plusieurs fois       │             │ 1 seule fois        │
-  │ (ordre aléatoire)   │             │ (ordre séquentiel)  │
-  │                      │             │                      │
-  │ rsfile.nc progresse  │ ─────────→  │ rsfile.nc réaliste   │
-  │ vers l'équilibre    │             │ utilisé comme init   │
-  │                      │             │                      │
-  │ Outputs → ignorés   │             │ Outputs → UTILISÉS ✓ │
-  └─────────────────────┘             └──────────────────────┘
-           ↓                                     ↓
-     SOC: 5→7→8.5→9.8→11.8           SOC: 11.8 (stable)
-     (croissance)                     (sans warm-up bias)
