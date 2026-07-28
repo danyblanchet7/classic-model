@@ -5,7 +5,7 @@
 Faire tourner le modèle CLASSIC sur le site CA-MonJ (Montmorency Juvenile) en utilisant la paramétrisation calibrée par Kyoungho.
 
 **Date de création** : 2026-07-02
-**Auteur** : Daniel Blanchet
+**Auteur** : Dany Blanchet
 **Base** : Fichiers de Kyoungho (Juvénile)
 
 ---
@@ -78,8 +78,8 @@ ls -lh /home/classic_ops/CLASSIC/inputFiles/meteorology/Juvenile/
 # Attendu : 7 fichiers metVar_*.nc
 ```
 
-- **✅ Si présent** : Continue à l'étape 2
-- **❌ Si absent** : Les fichiers météo manquent — contacte Kyoungho
+- ** Si présent** : Continue à l'étape 2
+- ** Si absent** : Les fichiers météo manquent — contacte Kyoungho
 
 ---
 
@@ -220,12 +220,12 @@ echo "SIF = $SIF"
 ```bash
 cd /home/classic_ops/CLASSIC
 
-echo "🚀 Lancement CLASSIC avec Kyoungho..."
+echo " Lancement CLASSIC avec Kyoungho..."
 apptainer exec $BIND $SIF \
   /work_zone/classic_tmp/bin/CLASSIC_serial \
   /work_zone/run_tmp/job_options_file_Transient.txt 0/0
 
-echo "✅ Run terminé"
+echo " Run terminé"
 ```
 
 **Suivi du run** :
@@ -324,7 +324,7 @@ git push
 
 ---
 
-## 🚀 Script d'automatisation (tout-en-un)
+##  Script d'automatisation (tout-en-un)
 
 Créer le script :
 
@@ -352,11 +352,11 @@ echo "Job type: $JOB_TYPE"
 echo ""
 
 # ========== ÉTAPE 1 : VÉRIFIER LES PRÉREQUIS ==========
-echo "1️⃣  Vérification des fichiers..."
+echo "1️  Vérification des fichiers..."
 
 # Vérifier les données météo Kyoungho
 if [ ! -d "$CLASSIC_DIR/inputFiles/meteorology/Juvenile" ]; then
-    echo "❌ Erreur : Données météo Juvenile absentes !"
+    echo " Erreur : Données météo Juvenile absentes !"
     echo "   Chemin attendu : $CLASSIC_DIR/inputFiles/meteorology/Juvenile/"
     exit 1
 fi
@@ -365,21 +365,21 @@ meteor_files=$(ls $CLASSIC_DIR/inputFiles/meteorology/Juvenile/metVar*.nc 2>/dev
 echo "   ✓ Fichiers météo trouvés : $meteor_files/7"
 
 if [ ! -f "$KYOUNGHO_DIR/Juvenile_init.cdl" ]; then
-    echo "❌ Erreur : Juvenile_init.cdl absent !"
+    echo " Erreur : Juvenile_init.cdl absent !"
     exit 1
 fi
 echo "   ✓ Juvenile_init.cdl trouvé"
 
 # ========== ÉTAPE 2 : GÉNÉRER init.nc ==========
 echo ""
-echo "2️⃣  Génération de Juvenile_init.nc..."
+echo "2️  Génération de Juvenile_init.nc..."
 
 cd "$KYOUNGHO_DIR"
 
 if ncgen -o Juvenile_init.nc Juvenile_init.cdl; then
     echo "   ✓ Juvenile_init.nc généré avec succès"
 else
-    echo "❌ Erreur lors de la génération du netCDF"
+    echo " Erreur lors de la génération du netCDF"
     exit 1
 fi
 
@@ -387,13 +387,13 @@ fi
 if ncdump -h Juvenile_init.nc > /dev/null 2>&1; then
     echo "   ✓ Vérification structure OK"
 else
-    echo "❌ Fichier init.nc corrompu !"
+    echo " Fichier init.nc corrompu !"
     exit 1
 fi
 
 # ========== ÉTAPE 3 : PRÉPARER DOSSIER JUVENILE ==========
 echo ""
-echo "3️⃣  Préparation du dossier de run..."
+echo "3️  Préparation du dossier de run..."
 
 mkdir -p "$KYOUNGHO_DIR/Juvenile"
 mkdir -p "$KYOUNGHO_DIR/outputFiles/CA-MonJ/netCDF"
@@ -407,7 +407,7 @@ ls -lh Juvenile/
 
 # ========== ÉTAPE 4 : LANCER CLASSIC ==========
 echo ""
-echo "4️⃣  Lancement CLASSIC..."
+echo "4️  Lancement CLASSIC..."
 
 cd "$CLASSIC_DIR"
 
@@ -426,13 +426,13 @@ if apptainer exec $BIND $SIF \
     /work_zone/classic_tmp/bin/CLASSIC_serial "$JOB_FILE" 0/0; then
     echo "   ✓ CLASSIC run terminé avec succès"
 else
-    echo "❌ Erreur lors du run CLASSIC"
+    echo " Erreur lors du run CLASSIC"
     exit 1
 fi
 
 # ========== ÉTAPE 5 : VÉRIFIER LES RÉSULTATS ==========
 echo ""
-echo "5️⃣  Vérification des résultats..."
+echo "5️  Vérification des résultats..."
 
 nc_count=$(ls "$KYOUNGHO_DIR/outputFiles/CA-MonJ/netCDF"/*.nc 2>/dev/null | wc -l)
 echo "   ✓ Fichiers netCDF générés : $nc_count"
@@ -449,7 +449,7 @@ PYEOF
 
 # ========== ÉTAPE 6 : VALIDATION ==========
 echo ""
-echo "6️⃣  Validation des résultats..."
+echo "6️  Validation des résultats..."
 
 if [ -f "/home/classic_ops/validation_kyoungho_complete.py" ]; then
     python3 /home/classic_ops/validation_kyoungho_complete.py
@@ -461,7 +461,7 @@ fi
 # ========== RÉSUMÉ ==========
 echo ""
 echo "===================================="
-echo "✅ SETUP ET RUN COMPLETS"
+echo " SETUP ET RUN COMPLETS"
 echo "===================================="
 echo ""
 echo "Résultats dans :"
@@ -482,7 +482,7 @@ echo "✓ Script créé : /home/classic_ops/run_kyoungho_complete.sh"
 
 ---
 
-## 📊 Lancer le workflow complet
+##  Lancer le workflow complet
 
 ```bash
 # Version transient (2016-2024)
