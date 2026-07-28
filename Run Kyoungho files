@@ -1,75 +1,73 @@
-bash
-cat > /home/classic_ops/KYOUNGHO_SETUP_GUIDE.md << 'EOF'
 # Guide Complet : Exécuter CLASSIC avec la Calibration de Kyoungho
 
 ## Objectif
-Faire tourner le modèle CLASSIC sur le site CA-MonJ (Montmorency Juvenile) 
-en utilisant la paramétrisation calibrée par Kyoungho.
 
-**Date de création** : 2026-07-02  
-**Auteur** : Daniel Blanchet  
+Faire tourner le modèle CLASSIC sur le site CA-MonJ (Montmorency Juvenile) en utilisant la paramétrisation calibrée par Kyoungho.
+
+**Date de création** : 2026-07-02
+**Auteur** : Daniel Blanchet
 **Base** : Fichiers de Kyoungho (Juvénile)
 
 ---
 
-## 1. ARCHITECTURE DU SYSTÈME
+## 1. Architecture du système
 
 ### Fichiers source (dispersés)
 
+```
 /home/classic_ops/CLASSIC/
-├── bin/CLASSIC_serial ← Binaire compilé
+├── bin/CLASSIC_serial          ← Binaire compilé
 └── inputFiles/
-├── meteorology/
-│ └── Juvenile/ ← Données météo (Kyoungho)
-│ ├── metVar_sw.nc
-│ ├── metVar_lw.nc
-│ ├── metVar_pr.nc
-│ ├── metVar_ta.nc
-│ ├── metVar_qa.nc
-│ ├── metVar_wi.nc
-│ └── metVar_ap.nc
-│
-└── CO2/
-└── TRENDY_CO2_1700_2024.nc ← CO2 global
-
+    ├── meteorology/
+    │   └── Juvenile/           ← Données météo (Kyoungho)
+    │       ├── metVar_sw.nc
+    │       ├── metVar_lw.nc
+    │       ├── metVar_pr.nc
+    │       ├── metVar_ta.nc
+    │       ├── metVar_qa.nc
+    │       ├── metVar_wi.nc
+    │       └── metVar_ap.nc
+    └── CO2/
+        └── TRENDY_CO2_1700_2024.nc   ← CO2 global
+```
 
 ### Répertoire de travail (où on exécute)
 
+```
 /home/classic_ops/kyoungho_calibration/CA-MonJ/
-├── Juvenile_init.cdl ← Template init (de Kyoungho)
-├── Juvenile_init.nc ← Fichier init généré (GÉNÉRÉ)
-├── job_options_file_Spinup.txt ← Config spin-up (de Kyoungho)
-├── job_options_file_Transient.txt ← Config transient (de Kyoungho)
-├── model_params.nml ← Paramètres calibrés (de Kyoungho)
-├── siteinfo.yaml ← Info site (de Kyoungho)
+├── Juvenile_init.cdl                 ← Template init (de Kyoungho)
+├── Juvenile_init.nc                  ← Fichier init généré (GÉNÉRÉ)
+├── job_options_file_Spinup.txt       ← Config spin-up (de Kyoungho)
+├── job_options_file_Transient.txt    ← Config transient (de Kyoungho)
+├── model_params.nml                  ← Paramètres calibrés (de Kyoungho)
+├── siteinfo.yaml                     ← Info site (de Kyoungho)
 │
-├── Juvenile/ ← Dossier de run
-│ ├── Juvenile_init.nc ← Copie du fichier init
-│ ├── model_params.nml ← Copie des paramètres
-│ └── rsfile.nc ← Restart (GÉNÉRÉ par CLASSIC)
+├── Juvenile/                         ← Dossier de run
+│   ├── Juvenile_init.nc              ← Copie du fichier init
+│   ├── model_params.nml              ← Copie des paramètres
+│   └── rsfile.nc                     ← Restart (GÉNÉRÉ par CLASSIC)
 │
 └── outputFiles/
-└── CA-MonJ/
-└── netCDF/ ← Résultats quotidiens (GÉNÉRÉS)
-├── gpp_daily.nc
-├── nep_daily.nc
-├── hfls_daily.nc
-├── hfss_daily.nc
-├── evspsbl_daily.nc
-└── ... (60+ fichiers)
-
+    └── CA-MonJ/
+        └── netCDF/                   ← Résultats quotidiens (GÉNÉRÉS)
+            ├── gpp_daily.nc
+            ├── nep_daily.nc
+            ├── hfls_daily.nc
+            ├── hfss_daily.nc
+            ├── evspsbl_daily.nc
+            └── ... (60+ fichiers)
+```
 
 ### Montage Apptainer
 
-Container Host System
-───────────────────────────────────────────────
-/work_zone/classic_tmp ← /home/classic_ops/CLASSIC
-/work_zone/run_tmp ← /home/classic_ops/kyoungho_calibration/CA-MonJ
-
+| Container | Host System |
+|---|---|
+| `/work_zone/classic_tmp` | `/home/classic_ops/CLASSIC` |
+| `/work_zone/run_tmp` | `/home/classic_ops/kyoungho_calibration/CA-MonJ` |
 
 ---
 
-## 2. ÉTAPES DE CONFIGURATION
+## 2. Étapes de configuration
 
 ### Étape 1 : Vérifier les fichiers météo Kyoungho
 
@@ -80,8 +78,8 @@ ls -lh /home/classic_ops/CLASSIC/inputFiles/meteorology/Juvenile/
 # Attendu : 7 fichiers metVar_*.nc
 ```
 
-**✅ Si présent** : Continue à étape 2  
-**❌ Si absent** : Les fichiers météo manquent — contacte Kyoungho
+- **✅ Si présent** : Continue à l'étape 2
+- **❌ Si absent** : Les fichiers météo manquent — contacte Kyoungho
 
 ---
 
@@ -98,13 +96,14 @@ tree /home/classic_ops/kyoungho_calibration/CA-MonJ
 
 **Output attendu** :
 
+```
 kyoungho_calibration/CA-MonJ/
 ├── Juvenile/
 ├── outputFiles/
-│ └── CA-MonJ/
-│ └── netCDF/
+│   └── CA-MonJ/
+│       └── netCDF/
 └── [autres fichiers de Kyoungho]
-
+```
 
 ---
 
@@ -148,31 +147,34 @@ ls -lh Juvenile/
 
 **Expected output** :
 
+```
 Juvenile_init.nc (~500 KB)
 model_params.nml (~18 KB)
-
+```
 
 ---
 
 ### Étape 5 : Vérifier le job_options_file_Transient.txt
 
-**Important** : Ne pas modifier le fichier de Kyoungho !
+> **Important** : Ne pas modifier le fichier de Kyoungho !
 
 ```bash
 # Afficher les chemins clés
 grep -E "init_file|rs_file|output_directory|runparams_file|metFile|CO2File" \
   job_options_file_Transient.txt
-
-# À voir (exactement) :
-# init_file = '/work_zone/run_tmp/Juvenile/Juvenile_init_Transient.nc'
-# runparams_file = '/work_zone/run_tmp/Juvenile/model_params.nml'
-# output_directory = '/work_zone/run_tmp/outputFiles/...'
-# metFileFss = '/work_zone/classic_tmp/inputFiles/meteorology/Juvenile/...'
-# CO2File = '/work_zone/classic_tmp/inputFiles/CO2/...'
 ```
 
-**Note** : Le fichier init s'appelle `Juvenile_init_Transient.nc` dans le job_options,  
-mais on a généré `Juvenile_init.nc`.  
+**À voir (exactement)** :
+
+```
+init_file = '/work_zone/run_tmp/Juvenile/Juvenile_init_Transient.nc'
+runparams_file = '/work_zone/run_tmp/Juvenile/model_params.nml'
+output_directory = '/work_zone/run_tmp/outputFiles/...'
+metFileFss = '/work_zone/classic_tmp/inputFiles/meteorology/Juvenile/...'
+CO2File = '/work_zone/classic_tmp/inputFiles/CO2/...'
+```
+
+**Note** : Le fichier init s'appelle `Juvenile_init_Transient.nc` dans le job_options, mais on a généré `Juvenile_init.nc`.
 **Solution** : Renommer ou faire lien symbolique
 
 ```bash
@@ -190,7 +192,7 @@ ls -la Juvenile/
 
 ---
 
-## 3. LANCER LE MODÈLE
+## 3. Lancer le modèle
 
 ### Étape 1 : Définir les variables Apptainer
 
@@ -228,11 +230,12 @@ echo "✅ Run terminé"
 
 **Suivi du run** :
 
+```
 done: met year = 2016 runyr = 2016
 done: met year = 2017 runyr = 2017
 ...
 done: met year = 2024 runyr = 2024
-
+```
 
 Durée attendue : 2-5 minutes selon la machine
 
@@ -259,11 +262,11 @@ EOF
 
 **Résultat attendu** :
 - ~60 fichiers netCDF générés
-- gpp_daily.nc : 3288 points temporels (365-366 jours × 9 ans)
+- `gpp_daily.nc` : 3288 points temporels (365-366 jours × 9 ans)
 
 ---
 
-## 4. VALIDER LES RÉSULTATS
+## 4. Valider les résultats
 
 ### Lancer le script de validation
 
@@ -271,16 +274,17 @@ EOF
 python3 /home/classic_ops/validation_kyoungho_complete.py
 ```
 
-### Résultats attente
+### Résultats attendus
 
-LE : R² > 0.6 (Kyoungho calibré, donc meilleur que v1)
-H : R² > 0.5 (Idem)
-ET : R² > 0.5
-
+| Variable | Critère |
+|---|---|
+| LE | R² > 0.6 (Kyoungho calibré, donc meilleur que v1) |
+| H | R² > 0.5 (Idem) |
+| ET | R² > 0.5 |
 
 ---
 
-## 5. SAUVEGARDER DANS GIT
+## 5. Sauvegarder dans Git
 
 ```bash
 # Copier dans le repo
@@ -296,40 +300,41 @@ git push
 
 ---
 
-## 6. STRUCTURE FINALE (Résumé)
+## 6. Structure finale (résumé)
 
-Avant run Après run
-─────────────────────────────────────────────
-✓ Juvenile_init.cdl
-✓ Juvenile_init.nc (généré) → ✓ utilisé
-✓ model_params.nml → ✓ copié dans Juvenile/
-✓ job_options_file_Transient → ✓ utilisé (inchangé)
-→ ✓ rsfile.nc (créé)
-→ ✓ outputFiles/CA-MonJ/netCDF/*.nc (60+ fichiers)
-
+| Avant run | Après run |
+|---|---|
+| ✓ `Juvenile_init.cdl` | |
+| ✓ `Juvenile_init.nc` (généré) | → ✓ utilisé |
+| ✓ `model_params.nml` | → ✓ copié dans `Juvenile/` |
+| ✓ `job_options_file_Transient` | → ✓ utilisé (inchangé) |
+| | → ✓ `rsfile.nc` (créé) |
+| | → ✓ `outputFiles/CA-MonJ/netCDF/*.nc` (60+ fichiers) |
 
 ---
 
-## 7. TROUBLESHOOTING
+## 7. Troubleshooting
 
 | Problème | Cause probable | Solution |
-|----------|---|---|
+|---|---|---|
 | `ncgen : command not found` | netcdf-bin pas installé | `apt-get install netcdf-bin` |
-| `netCDF error with tag ncOpen` | Fichier init ne trouve pas rsfile | S'assurer rsfile.nc est dans Juvenile/ |
+| `netCDF error with tag ncOpen` | Fichier init ne trouve pas rsfile | S'assurer que `rsfile.nc` est dans `Juvenile/` |
 | `Cannot find meteorology files` | Données Juvenile pas présentes | Vérifier `/CLASSIC/inputFiles/meteorology/Juvenile/` |
 | `Nothing to commit, working tree clean` | Les fichiers n'ont pas changé | Vérifier que les binds Apptainer sont corrects |
 
-EOF
+---
 
-cat /home/classic_ops/KYOUNGHO_SETUP_GUIDE.md
-🚀 SCRIPT AUTOMATION (tout-en-un)
-bash
+## 🚀 Script d'automatisation (tout-en-un)
+
+Créer le script :
+
+```bash
 cat > /home/classic_ops/run_kyoungho_complete.sh << 'EOF'
 #!/bin/bash
 
 ###############################################################################
 # Script Complet : Kyoungho Calibration Setup + Run + Validation
-# 
+#
 # Usage: bash run_kyoungho_complete.sh [spinup|transient]
 #        Par défaut : transient
 ###############################################################################
@@ -473,10 +478,16 @@ EOF
 
 chmod +x /home/classic_ops/run_kyoungho_complete.sh
 echo "✓ Script créé : /home/classic_ops/run_kyoungho_complete.sh"
-📊 LANCER LE WORKFLOW COMPLET
-bash
+```
+
+---
+
+## 📊 Lancer le workflow complet
+
+```bash
 # Version transient (2016-2024)
 bash /home/classic_ops/run_kyoungho_complete.sh transient
 
 # Ou version spin-up
 bash /home/classic_ops/run_kyoungho_complete.sh spinup
+```
