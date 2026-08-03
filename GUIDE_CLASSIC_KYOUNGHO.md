@@ -76,12 +76,6 @@ Faire tourner le modèle CLASSIC sur le site CA-MonJ (Montmorency Juvenile) en u
 ls -lh /home/classic_ops/CLASSIC/inputFiles/meteorology/Juvenile/
 
 # Attendu : 7 fichiers metVar_*.nc
-```
-
-- ** Si présent** : Continue à l'étape 2
-- ** Si absent** : Les fichiers météo manquent — contacte Kyoungho
-
----
 
 ### Étape 2 : Préparer le répertoire de travail
 
