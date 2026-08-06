@@ -1,0 +1,4 @@
+| Run_ID | Date_time_start | Date_time_end | Git_hash | Branch | Model_version | Site | Run_type | Spinup | Parameters_changed | LE_RMSE | H_RMSE | LE_bias | H_bias | LE_R2 | H_R2 | GPP_RMSE | Status | Notes |
+|--------|-----------------|---------------|----------|--------|---------------|------|----------|--------|--------------------|---------|--------|---------|--------|-------|-----|----------|--------|-------|
+| CAL-001 | 2026-08-03 10:30 | 2026-08-03 12:15 | abc1234 | calibration | CLASSIC_v1 | CA-MonJ | transient | 300y | Vmax=50 |  |  |  |  |  |  |  | completed | Baseline run |
+| CAL-002 | 2026-08-03 13:00 | 2026-08-03 14:45 | def5678 | calibration | CLASSIC_v1 | CA-MonJ | transient | 300y | Vmax=100 |  |  |  |  |  |  |  | completed | Higher photosynthesis capacity |
